@@ -51,4 +51,20 @@ router.post('/', (req, res) => {
     });
 });
 
+router.delete('/:id', (req, res) => {
+  // const zooId = req.params.id;
+  zoodb('zoos')
+    .where({ id: req.params.id })
+    .del()
+    .then(count => {
+      if (count > 0) {
+        res.status(204).end();
+      } else {
+        res.status(404).json({ message: 'Record not found' });
+      }
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    });
+});
 module.exports = router;
